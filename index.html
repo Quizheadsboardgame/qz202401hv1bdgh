@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horror Quiz Box</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600&display=swap">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Baloo 2', sans-serif; /* Balloon-like font */
+            background-color: #5CE1E6; /* Updated background color */
+            color: black;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        #quiz-headings {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #quiz-headings img {
+            max-width: 300px; /* Adjust size as needed */
+            height: auto;
+        }
+
+        #yellow-box {
+            width: 200px;
+            height: 200px;
+            background-color: #FED405; /* Updated yellow color */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            cursor: pointer;
+            color: black;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            border: 5px solid black; /* Black edging */
+        }
+
+        .color-boxes {
+            display: flex;
+            justify-content: space-between;
+            width: 220px;
+        }
+
+        .color-box {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+        }
+
+        #green-box {
+            background-color: #7FD15A; /* Updated green color */
+        }
+
+        #orange-box {
+            background-color: #FF914D; /* Updated orange color */
+        }
+
+        #red-box {
+            background-color: #EE1D23; /* Updated red color */
+        }
+
+        #purple-box {
+            background-color: #8456E5; /* Updated purple color */
+        }
+
+        #question-answer {
+            margin-top: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        #tagline {
+            margin-top: 40px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="quiz-headings">
+        <!-- Replace text with your logo -->
+        
+    </div>
+
+    <div id="yellow-box">Horror</div>
+
+    <div class="color-boxes">
+        <div id="green-box" class="color-box"></div>
+        <div id="orange-box" class="color-box"></div>
+        <div id="red-box" class="color-box"></div>
+        <div id="purple-box" class="color-box"></div>
+    </div>
+
+    <div id="question-answer"></div>
+
+    <!-- Add your tagline here -->
+    <div id="tagline">QuizHeads. The forever changing trivia board game!</div>
+
+    <script>
+        const yellowBox = document.getElementById("yellow-box");
+        const greenBox = document.getElementById("green-box");
+        const orangeBox = document.getElementById("orange-box");
+        const redBox = document.getElementById("red-box");
+        const purpleBox = document.getElementById("purple-box");
+        const questionAnswerDiv = document.getElementById("question-answer");
+
+        // Array of horror trivia questions and answers
+        const horrorQuestions = [
+            { question: "What is the name of the killer in Halloween?", answer: "Michael Myers" },
+            { question: "Who directed the movie 'Psycho'?", answer: "Alfred Hitchcock" },
+            { question: "In 'The Shining', what is the famous phrase Jack Nicholson's character writes?", answer: "'All work and no play makes Jack a dull boy.'" },
+            { question: "What 1973 horror movie was banned in several countries for its graphic content?", answer: "The Exorcist" },
+            { question: "Which horror film features a serial killer wearing a William Shatner mask?", answer: "Halloween" },
+            { question: "What is the name of the demon in The Exorcist?", answer: "Pazuzu" },
+            { question: "In what year was 'The Texas Chain Saw Massacre' released?", answer: "1974" },
+            { question: "Which movie is known for the quote 'Do you like scary movies?'", answer: "Scream" },
+            { question: "What is the name of the camp in 'Friday the 13th'?", answer: "Camp Crystal Lake" },
+            // More questions...
+        ];
+
+        let shuffledQuestions = [];
+        let questionIndex = 0;
+
+        // Shuffle the questions array
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Initialize questions
+        function initializeQuestions() {
+            shuffledQuestions = shuffleArray([...horrorQuestions]);
+            questionIndex = 0;
+            displayQuestion();
+        }
+
+        // Function to display the current question
+        function displayQuestion() {
+            if (shuffledQuestions.length === 0) {
+                questionAnswerDiv.innerHTML = "<strong>No more questions!</strong>";
+                return;
+            }
+            const currentQA = shuffledQuestions[questionIndex];
+            questionAnswerDiv.innerHTML = `<strong>Question:</strong> ${currentQA.question}<br><strong>Answer:</strong> ${currentQA.answer}`;
+        }
+
+        // Change color of the yellow box when a color box is clicked
+        greenBox.addEventListener("click", () => {
+            yellowBox.style.backgroundColor = "#7FD15A"; // Updated green color
+        });
+
+        orangeBox.addEventListener("click", () => {
+            yellowBox.style.backgroundColor = "#FF914D"; // Updated orange color
+        });
+
+        redBox.addEventListener("click", () => {
+            yellowBox.style.backgroundColor = "#EE1D23"; // Updated red color
+        });
+
+        purpleBox.addEventListener("click", () => {
+            yellowBox.style.backgroundColor = "#8456E5"; // Updated purple color
+        });
+
+        // Generate a random question and display it when the yellow box is clicked
+        yellowBox.addEventListener("click", () => {
+            questionIndex = (questionIndex + 1) % shuffledQuestions.length;
+            displayQuestion();
+        });
+
+        // Initialize questions on page load
+        window.onload = initializeQuestions;
+    </script>
+
+</body>
+</html>
